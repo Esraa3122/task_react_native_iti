@@ -1,9 +1,28 @@
 import { useNavigation } from "@react-navigation/native";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useDispatch, useSelector } from "react-redux";
+import { changeFav } from "../Redux/Actions/Action";
 
 function MyCard(props) {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const favorites = useSelector((state) => state.fav);
+
+  const favItem = favorites.find((movie) => movie.id === props.cid);
+  const isFavorite = !!favItem;
+  const favCount = favItem ? favItem.count : 0;
+
+  const toggleFavorite = () => {
+    dispatch(
+      changeFav({
+        id: props.cid,
+        title: props.title,
+        logo: props.logo,
+        rating: props.rating,
+      })
+    );
+  };
 
   return (
     <TouchableOpacity
@@ -26,23 +45,25 @@ function MyCard(props) {
           </View>
         )}
 
-        {props.companySize && (
-          <Text style={styles.detail}>Company Size: {props.companySize}</Text>
-        )}
-        {props.companyLocation && (
-          <Text style={styles.detail}>Location: {props.companyLocation}</Text>
-        )}
-        {props.companyDescription && (
-          <Text style={styles.detail}>
-            {props.companyDescription}
-          </Text>
-        )}
+        <TouchableOpacity 
+          onPress={toggleFavorite} 
+          style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}
+        >
+          <Ionicons
+            name={isFavorite ? "heart" : "heart-outline"}
+            size={20}
+            color={isFavorite ? "red" : "white"}
+          />
+          <Text style={{ color: "#fff", marginLeft: 5 }}>{favCount}</Text>
+        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
 }
 
 export default MyCard;
+
+
 
 const styles = StyleSheet.create({
   card: {

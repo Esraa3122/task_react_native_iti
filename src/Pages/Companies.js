@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { StyleSheet, View, Text, FlatList, TextInput, TouchableOpacity } from "react-native";
 import MyCard from "../Components/MyCard"; 
 import { Ionicons } from "@expo/vector-icons";
+import { useSelector } from "react-redux";
 
 function Companies() {
   const [movies, setMovies] = useState([]);
   const [search, setSearch] = useState("");
+  const myFav = useSelector((state) => state.fav)
 
   useEffect(() => {
     axios
@@ -17,8 +19,13 @@ function Companies() {
 
   return (
     <View style={styles.container}>
+     <View style={{ flexDirection: "row"}}>
       <Text style={styles.heading}>Watch Now</Text>
-
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Ionicons name="heart" size={22} color="red" />
+          <Text style={{ color: "#fff", marginLeft: 5 }}>{myFav.length}</Text>
+        </View>
+      </View>
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={20} color="#888" />
         <TextInput

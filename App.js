@@ -8,6 +8,9 @@ import CompanyDetails from './src/Pages/CompanyDetails';
 import { Ionicons, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import LoginForm from './src/Pages/LoginForm';
 import ToDoApp from './src/Pages/TodoList';
+import { Provider } from 'react-redux';
+import myStore from './src/Redux/Store';
+import Animate from './src/Pages/Animate';
 
 
 const MainStack = () => {
@@ -23,45 +26,54 @@ const MainStack = () => {
 const App = () => {
   const Drawer = createDrawerNavigator();
   return(
-  <NavigationContainer> 
-      <Drawer.Navigator
-      screenOptions={{
-    drawerStyle: {
-      backgroundColor: '#121212', 
-    },
-    drawerActiveTintColor: '#00C853', 
-    drawerInactiveTintColor: '#fff', 
-    headerStyle: {
-      backgroundColor: '#121212', 
-    },
-    headerTintColor: '#fff',
-  }}
-      > 
-          <Drawer.Screen name="List of Companies" component={MainStack}  options={{
-      drawerIcon: ({ color, size }) => (
-        <Ionicons name="list" size={size} color="#FFC107" />
-      ),
-    }}
-          />
-          <Drawer.Screen name="myHome" component={Home} options={{
-      drawerIcon: ({ color, size }) => (
-        <Ionicons name="home" size={size} color="#FFC107" />
-      ),
-    }}/>
+    <Provider store={myStore}>
+        <NavigationContainer> 
+          <Drawer.Navigator
+          screenOptions={{
+        drawerStyle: {
+          backgroundColor: '#121212', 
+        },
+        drawerActiveTintColor: '#00C853', 
+        drawerInactiveTintColor: '#fff', 
+        headerStyle: {
+          backgroundColor: '#121212', 
+        },
+        headerTintColor: '#fff',
+      }}
+          > 
+              <Drawer.Screen name="List of Companies" component={MainStack}  options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="list" size={size} color="#FFC107" />
+          ),
+        }}
+              />
+              <Drawer.Screen name="myHome" component={Animate} options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="home" size={size} color="#FFC107" />
+          ),
+        }}/>
 
-     <Drawer.Screen name="myForm" component={LoginForm} options={{
-      drawerIcon: ({ color, size }) => (
-        <Ionicons name="log-in" size={size} color="#FFC107" />
-      ),
-    }}/>
+        <Drawer.Screen name="myForm" component={LoginForm} options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="log-in" size={size} color="#FFC107" />
+          ),
+        }}/>
 
-     <Drawer.Screen name="myTodo" component={ToDoApp} options={{
-      drawerIcon: ({ color, size }) => (
-        <Ionicons name="checkmark-done-outline" size={size} color="#FFC107" />
-      ),
-    }}/>
-       </Drawer.Navigator>
-  </NavigationContainer>
+        <Drawer.Screen name="myTodo" component={ToDoApp} options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="checkmark-done-outline" size={size} color="#FFC107" />
+          ),
+        }}/>
+{/* 
+        <Drawer.Screen name="myTodo" component={ToDoApp} options={{
+          drawerIcon: ({ color, size }) => (
+            <Ionicons name="checkmark-done-outline" size={size} color="#FFC107" />
+          ),
+        }}/> */}
+
+          </Drawer.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 
